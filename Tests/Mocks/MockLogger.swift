@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import VOICE
 
 final class MockLogger: Logger {
     var logs: [(message: String, level: LogLevel, module: String)] = []

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import VOICE
 
 final class MockAuthRepository: AuthRepository {
     var loginHandler: ((String, String) async throws -> AuthSession)?

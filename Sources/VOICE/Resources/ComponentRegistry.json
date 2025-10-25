@@ -1,0 +1,67 @@
+{
+  "components": [
+    {
+      "id": "login_form",
+      "type": "form",
+      "fields": ["email", "password"],
+      "onSubmit": "auth.login"
+    },
+    {
+      "id": "logout_button",
+      "type": "button",
+      "onTap": "auth.logout"
+    },
+    {
+      "id": "items_list",
+      "type": "list",
+      "onRefresh": "items.list"
+    },
+    {
+      "id": "new_item_form",
+      "type": "form",
+      "fields": ["title", "description"],
+      "onSubmit": "items.create"
+    },
+    {
+      "id": "edit_item_form",
+      "type": "form",
+      "fields": ["id", "title", "description"],
+      "onSubmit": "items.update"
+    },
+    {
+      "id": "delete_item_button",
+      "type": "button",
+      "onTap": "items.delete"
+    },
+    {
+      "id": "user_profile",
+      "type": "view",
+      "onRefresh": "user.current"
+    }
+  ],
+  "actions": {
+    "auth.login": {
+      "useCase": "AuthLoginUseCase"
+    },
+    "auth.logout": {
+      "useCase": "AuthLogoutUseCase"
+    },
+    "items.list": {
+      "useCase": "ItemsListUseCase"
+    },
+    "items.create": {
+      "useCase": "ItemsCreateUseCase"
+    },
+    "items.update": {
+      "useCase": "ItemsUpdateUseCase"
+    },
+    "items.delete": {
+      "useCase": "ItemsDeleteUseCase"
+    },
+    "user.current": {
+      "useCase": "GetCurrentUserUseCase"
+    }
+  }
+}
+
+

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # test.sh
-# Test script for VOICE app
+# Test script for VOICE package using Swift Package Manager
 #
 
 set -e
@@ -10,42 +10,44 @@ set -e
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PROJECT_PATH="${PROJECT_DIR}/VOICE/VOICE.xcodeproj"
-SCHEME="${1:-VOICE-Dev}"
-DESTINATION="${2:-platform=iOS Simulator,name=iPhone 15}"
+PARALLEL="${1:-}"
 
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}Running VOICE Tests${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
-echo -e "Project: ${YELLOW}${PROJECT_PATH}${NC}"
-echo -e "Scheme: ${YELLOW}${SCHEME}${NC}"
-echo -e "Destination: ${YELLOW}${DESTINATION}${NC}"
+echo -e "Package Directory: ${YELLOW}${PROJECT_DIR}${NC}"
 echo ""
+
+# Change to project directory
+cd "${PROJECT_DIR}"
 
 # Run tests
 echo -e "${YELLOW}Running tests...${NC}"
+echo ""
 
-xcodebuild test \
-  -project "${PROJECT_PATH}" \
-  -scheme "${SCHEME}" \
-  -destination "${DESTINATION}" \
-  -derivedDataPath "${PROJECT_DIR}/DerivedData" \
-  CODE_SIGN_IDENTITY="" \
-  CODE_SIGNING_REQUIRED=NO \
-  | xcpretty || true
+if [ "${PARALLEL}" == "--parallel" ]; then
+  swift test --parallel
+else
+  swift test
+fi
 
-TEST_EXIT_CODE=${PIPESTATUS[0]}
+TEST_EXIT_CODE=$?
 
 if [ $TEST_EXIT_CODE -eq 0 ]; then
   echo ""
   echo -e "${GREEN}========================================${NC}"
   echo -e "${GREEN}✓ All tests passed!${NC}"
   echo -e "${GREEN}========================================${NC}"
+  echo ""
+  echo -e "${BLUE}Note:${NC} Tests run using Swift Package Manager"
+  echo -e "For iOS UI testing, use Xcode: ${YELLOW}open VOICE/VOICE.xcodeproj${NC}"
+  echo ""
   exit 0
 else
   echo ""

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import VOICE
 
 final class MockHTTPClient: HTTPClient {
     var sendHandler: ((HTTPRequest) async throws -> Any)?

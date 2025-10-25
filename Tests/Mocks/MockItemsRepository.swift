@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import VOICE
 
 final class MockItemsRepository: ItemsRepository {
     var listHandler: ((String?, Int) async throws -> (items: [DomainItem], nextCursor: String?))?

@@ -1,4 +1,4 @@
-//
+lorem ipsum//
 //  ItemsListView.swift
 //  VOICE
 //
@@ -215,4 +215,5 @@ final class ItemsListViewModel: ObservableObject {
 #Preview {
     ItemsListView()
 }
+
 

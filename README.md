@@ -77,12 +77,28 @@ VOICE/
 
 ## Getting Started
 
+### 🎯 NEW: Swift Package Manager Support
+
+**This project now supports SPM for building and testing directly from Cursor or command line!**
+
+```bash
+# Build the package
+swift build
+
+# Run tests
+swift test
+
+# Run the CLI demo
+swift run voice-cli
+```
+
+📖 **See [SPM_GUIDE.md](./SPM_GUIDE.md) for complete SPM instructions**
+
 ### Prerequisites
 
 - macOS 13.0+
-- Xcode 15.0+
-- iOS 15.0+ target
-- Swift 5.7+
+- Xcode 15.0+ (for iOS app) OR Swift 5.7+ toolchain (for command-line)
+- iOS 15.0+ target (for iOS app)
 
 ### Installation
 
@@ -92,37 +108,60 @@ VOICE/
    cd voice
    ```
 
-2. **Open the project**
+2. **Choose your workflow:**
+
+   **Option A: Swift Package Manager (Command Line / Cursor)**
    ```bash
-   open VOICE/VOICE.xcodeproj
+   # Build
+   swift build
+   # Or use script
+   ./Scripts/build.sh
+   
+   # Test
+   swift test
+   # Or use script
+   ./Scripts/test.sh
+   
+   # Run CLI
+   swift run voice-cli
    ```
 
-3. **Configure schemes** (see [Environment Setup](Docs/ENVIRONMENT_SETUP.md))
-   - Link xcconfig files to build configurations
-   - Create schemes for Dev, Staging, and Prod
-
-4. **Build and run**
+   **Option B: Xcode (Full iOS App)**
    ```bash
-   # Using script
-   ./Scripts/build.sh VOICE-Dev
+   # Open project
+   open VOICE/VOICE.xcodeproj
    
-   # Or in Xcode
-   # Select VOICE-Dev scheme
-   # Cmd+R to run
+   # Configure schemes (see Environment Setup docs)
+   # Build and run with Cmd+R
    ```
 
 ### Running Tests
 
+**SPM (Recommended for quick testing):**
+```bash
+# All tests
+swift test
+
+# Or use script
+./Scripts/test.sh
+
+# Parallel tests
+swift test --parallel
+
+# Specific test
+swift test --filter ItemsListUseCaseTests
+```
+
+**Xcode (For iOS simulator tests):**
 ```bash
 # All tests
 ./Scripts/test.sh VOICE-Dev
 
-# Specific test
+# Or manually
 xcodebuild test \
   -project VOICE/VOICE.xcodeproj \
   -scheme VOICE-Dev \
-  -destination 'platform=iOS Simulator,name=iPhone 15' \
-  -only-testing:VOICETests/AuthLoginUseCaseTests
+  -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
 
 ## Configuration

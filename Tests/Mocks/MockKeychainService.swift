@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import VOICE
 
 final class MockKeychainService: KeychainService {
     private var storage: [String: String] = [:]

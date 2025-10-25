@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import VOICE
 
 final class ItemsListUseCaseTests: XCTestCase {
     var useCase: DefaultItemsListUseCase!
