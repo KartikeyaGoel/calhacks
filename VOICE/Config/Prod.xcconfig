@@ -1,0 +1,29 @@
+//
+//  Prod.xcconfig
+//  VOICE
+//
+//  Production environment configuration
+//
+
+#include "Base.xcconfig"
+
+// Environment
+BUILD_ENV = PROD
+
+// API Configuration
+API_BASE_URL = https:/$()/api.voice-app.com
+FEATURE_FLAGS_BOOTSTRAP_URL = https:/$()/api.voice-app.com/feature-flags
+
+// Bundle Identifier
+PRODUCT_BUNDLE_IDENTIFIER = $(PRODUCT_BUNDLE_IDENTIFIER_BASE)
+
+// Display Name
+PRODUCT_DISPLAY_NAME = VOICE
+
+// Compiler Flags - Optimize for production
+SWIFT_OPTIMIZATION_LEVEL = -O
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE
+
+// Analytics (enabled in production)
+ANALYTICS_ENABLED = YES
+

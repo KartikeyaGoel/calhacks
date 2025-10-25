@@ -1,0 +1,11 @@
+{
+  "user": {
+    "id": "user_123",
+    "email": "test@example.com",
+    "name": "Test User",
+    "avatar_url": "https://example.com/avatar.jpg"
+  },
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "refresh_token_abc123"
+}
+

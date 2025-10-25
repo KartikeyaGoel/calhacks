@@ -1,0 +1,28 @@
+//
+//  Dev.xcconfig
+//  VOICE
+//
+//  Development environment configuration
+//
+
+#include "Base.xcconfig"
+
+// Environment
+BUILD_ENV = DEV
+
+// API Configuration
+API_BASE_URL = https:/$()/dev.api.voice-app.com
+FEATURE_FLAGS_BOOTSTRAP_URL = https:/$()/dev.api.voice-app.com/feature-flags
+
+// Bundle Identifier
+PRODUCT_BUNDLE_IDENTIFIER = $(PRODUCT_BUNDLE_IDENTIFIER_BASE).dev
+
+// Display Name
+PRODUCT_DISPLAY_NAME = VOICE DEV
+
+// Compiler Flags
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
+
+// Analytics (disabled in dev)
+ANALYTICS_ENABLED = NO
+

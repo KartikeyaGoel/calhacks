@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: macos-13
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.0'
+    
+    - name: Get version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+        else
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Update version in project
+      run: |
+        VERSION=${{ steps.version.outputs.version }}
+        echo "Updating to version $VERSION"
+        # Update CFBundleShortVersionString in Info.plist
+        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" VOICE/VOICE/Info.plist || true
+    
+    - name: Build for all environments
+      run: |
+        for SCHEME in VOICE-Dev VOICE-Staging VOICE-Prod; do
+          echo "Building $SCHEME..."
+          xcodebuild archive \
+            -project VOICE/VOICE.xcodeproj \
+            -scheme $SCHEME \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "build/$SCHEME.xcarchive" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO
+        done
+    
+    - name: Create release notes
+      run: |
+        cat > release-notes.md << EOF
+        # VOICE v${{ steps.version.outputs.version }}
+        
+        ## Changes
+        
+        $(git log $(git describe --tags --abbrev=0 2>/dev/null || echo HEAD)..HEAD --pretty=format:"- %s" --no-merges)
+        
+        ## Build Information
+        
+        - Build Date: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        - Commit: ${{ github.sha }}
+        - Branch: ${{ github.ref_name }}
+        
+        ## Installation
+        
+        1. Download the appropriate build for your environment
+        2. Install via Xcode or your deployment service
+        3. See documentation for configuration details
+        EOF
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        body_path: release-notes.md
+        files: |
+          build/*.xcarchive
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

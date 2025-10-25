@@ -1,0 +1,28 @@
+//
+//  Staging.xcconfig
+//  VOICE
+//
+//  Staging environment configuration
+//
+
+#include "Base.xcconfig"
+
+// Environment
+BUILD_ENV = STAGING
+
+// API Configuration
+API_BASE_URL = https:/$()/staging.api.voice-app.com
+FEATURE_FLAGS_BOOTSTRAP_URL = https:/$()/staging.api.voice-app.com/feature-flags
+
+// Bundle Identifier
+PRODUCT_BUNDLE_IDENTIFIER = $(PRODUCT_BUNDLE_IDENTIFIER_BASE).staging
+
+// Display Name
+PRODUCT_DISPLAY_NAME = VOICE STAGING
+
+// Compiler Flags
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
+
+// Analytics (enabled in staging)
+ANALYTICS_ENABLED = YES
+
